@@ -1,0 +1,13 @@
+
+
+CREATE OR REPLACE TABLE COMBINED AS select * from(select * from (SELECT * FROM (SELECT * FROM (SELECT * FROM ( SELECT * FROM (SELECT * FROM
+(SELECT * FROM BUSINESS_ODS1) AS B LEFT JOIN (SELECT BUSINESS_ID AS BUS_ID_C, DATE FROM CHECKIN_ODS1) AS C ON B.BUSINESS_ID=C.BUS_ID_C)  
+LEFT JOIN (SELECT  business_id AS BUS_ID_CO, highlights, ASdelivery_or_takeout, Grubhub_enabled, Call_To_Action_enabled, Request_a_Quote_Enabled,
+Covid_Banner,Temporary_Closed_Until, Virtual_Services_Offered FROM COVID_ODS) AS CO ON BUSINESS_ID=CO.BUS_ID_CO )
+LEFT JOIN (SELECT USER_ID, BUSINESS_ID AS BUS_ID_T, TEXT AS TEXT_T, DATE AS DATE_T, COMPLIMENT_COUNT FROM TIP_ODS) AS T ON (BUS_ID_C=T.BUS_ID_T AND DATE=DATE_T) 
+left join (select user_id as user_id_u,	name as name_user, review_count, yelping_since, useful as useful_u, funny as funny_u, cool as cool_u,elite,friend,fans,average_stars,compliment_hot,
+compliment_more, compliment_profile, compliment_cute, compliment_list, compliment_note,	compliment_plain, compliment_cool, compliment_funny, compliment_writer, compliment_photos from user_ods1) as u on (user_id=u.user_id_u)) 
+LEFT JOIN (SELECT USER_ID as user_id_R, BUSINESS_ID AS BUS_ID_R, REVIEW_ID, STARS as stars_R, USEFUL, FUNNY, COOL, TEXT AS TEXT_R, DATE AS DATE_R, to_date(DATE) AS Dt_R FROM REVIEW_ODS) AS R 
+ON (BUS_ID_T=BUS_ID_R AND user_id=user_id_R)) left join (select date as date_temp, min, max, normal_min, normal_max from climate_temperature_ods) as temp on (date=TEMP.date_temp))
+left join (select date as date_pre, precipitation, precipitation_normal from climate_precipitation_ods) as pre on (Date=PRE.DATE_PRE));
+

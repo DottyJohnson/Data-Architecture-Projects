@@ -1,0 +1,40 @@
+create or replace table business_ods as select *,split(cat,',') as categories from business_ods;
+alter table business_ods drop column cat;
+
+create or replace table business_ods1 as select 
+business_ods.BUSINESS_ID, business_ods.NAME1, business_ods.ADDRESS, business_ods.CITY, business_ods.STATE, business_ods.POSTAL_CODE, business_ods.LATITUDE, business_ods.LONGITUDE, business_ods.STARS,
+business_ods.REVIEW, business_ods.IS_OPEN, business_ods.RESTAURANTSTABLESERVICE, business_ods.WIFI, business_ods.BIKEPARKING, business_ods.BUSINESSPARKING_GARAGE, business_ods.BUSINESSPARKING_STREET, 
+business_ods.BUSINESSPARKING_VALIDATED, business_ods.BUSINESSPARKING_LOT, business_ods.BUSINESSPARKING_VALET, business_ods.BUSINESSACCEPTSCREDITCARDS, business_ods.RESTAURANTSRESERVATIONS,
+ business_ods.WHEELCHAIRACCESSIBLE, business_ods.CATERS, business_ods.OUTDOORSEATING, business_ods.RESTAURANTSGOODFORGROUPS, business_ods.HAPPYHOUR, business_ods.BUSINESSACCEPTSBITCOIN, business_ods.RESTAURANTSPRICERANGE2,
+business_ods.AMBIENCE_ROMANTIC,	business_ods.AMBIENCE_INTIMATE,	business_ods.AMBIENCE_CLASSY, business_ods.AMBIENCE_HIPSTER, business_ods.AMBIENCE_DIVEY, business_ods.AMBIENCE_TOURISTY, business_ods.AMBIENCE_TRENDY, 
+business_ods.AMBIENCE_UPSCALE, business_ods.AMBIENCE_CASUAL, business_ods.HASTV, business_ods.ALCOHOL, business_ods.GOODFORMEAL_DESSERT, business_ods.GOODFORMEAL_LATENIGHT, business_ods.GOODFORMEAL_LUNCH,
+business_ods.GOODFORMEAL_DINNER, business_ods.GOODFORMEAL_BRUNCH, business_ods.GOODFORMEAL_BREAKFAST, business_ods.DOGSALLOWED, business_ods.RESTAURANTSTAKEOUT, business_ods.NOISELEVEL, business_ods.RESTAURANTSATTIRE,
+business_ods.RESTAURANTSDELIVERY, business_ods.GOODFORKIDS, business_ods.BYAPPOINTMENTONLY, business_ods.MONDAY, business_ods.TUESDAY,	business_ods.WEDNESDAY,	business_ods.THURSDAY, business_ods.FRIDAY,
+business_ods.SATURDAY, business_ods.SUNDAY, f.value as category from business_ods, table(flatten(input=>categories))F; 
+
+CREATE OR REPLACE TABLE BUSINESS_ODS1 AS SELECT * FROM BUSINESS_ods1 UNPIVOT(TIME FOR DAYS IN (MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY));
+
+
+create or replace table checkin_ods as select *,split(date,',') as dates from checkin_ods;
+
+create or replace table checkin_ods1 as select checkin_ods.business_id,f.value::datetime as date from checkin_ods, table(flatten(input=>dates))F; 	
+
+Create or replace table Climate_temperature_ods as 
+select CONCAT(SUBSTRING(date,0,4),CONCAT('-',CONCAT(SUBSTRING(DATE,5,2),CONCAT('-',SUBSTRING(DATE,7,2)))))::date AS DATE,
+min::INT as min, max::INT as max, normal_min::FLOAT as normal_min, normal_max::FLOAT as normal_max from STAGE_SCHEMA.climate_temperature;		
+																	
+
+Create or replace table Climate_precipitation_ods as 
+select CONCAT(SUBSTRING(date,0,4),CONCAT('-',CONCAT(SUBSTRING(DATE,5,2),CONCAT('-',SUBSTRING(DATE,7,2)))))::date AS DATE,
+ precipitation::text as precipitation, precipitation_normal::FLOAT as precipitation_normal from STAGE_SCHEMA.climate_precipitation;		
+																	
+
+create or replace table user_ods as select *,split(friends,',') as friends1 from user_ods;
+alter table user_ods drop column friends;
+create or replace table user_ods1 as select
+user_ods.user_id, user_ods.name, user_ods.review_count, user_ods.yelping_since, user_ods.useful, user_ods.funny, user_ods.cool, user_ods.elite,	
+user_ods.fans, user_ods.average_stars, user_ods.compliment_hot, user_ods.compliment_more,
+user_ods.compliment_profile, user_ods.compliment_cute, user_ods.compliment_list, user_ods.compliment_note, 
+user_ods.compliment_plain, user_ods.compliment_cool, user_ods.compliment_funny,
+user_ods.compliment_writer, user_ods.compliment_photos, f.value as friend from user_ods, table(flatten(input=>friends1))f;
+																																														[    "Barbers",    " Beauty & Spas"  ]

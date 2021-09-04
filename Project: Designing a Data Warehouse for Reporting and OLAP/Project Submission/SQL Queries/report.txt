@@ -1,0 +1,3 @@
+select business_name, min, max, normal_min, normal_max, precipitation, precipitation_normal, date from (select * from (select business_id, date from fact_table) as f left join 
+(select name1 as business_name, business_id as bus_id  from business_dwh) as b on f.business_id=b.bus_id) left join (select min, max, normal_min, normal_max, precipitation, precipitation_normal,
+ date as dt from climate_dwh) as cl on date=cl.dt ;

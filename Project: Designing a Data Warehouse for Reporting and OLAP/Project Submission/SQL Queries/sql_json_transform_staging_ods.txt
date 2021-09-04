@@ -1,0 +1,125 @@
+
+
+
+create or replace table business_ods as select 
+column1:business_id::string as business_id,
+column1:name::string as name1,
+column1:address::string as address,
+column1:city::string as city,
+column1:state::string as state,
+column1:postal_code::string as postal_code,
+column1:latitude::float as latitude,
+column1:longitude::float as longitude,
+column1:stars::float as stars,
+column1:review_count::int as review,
+column1:is_open::string as is_open,
+column1:attributes.RestaurantsTableService::string as RestaurantsTableService,
+column1:attributes.WiFi::string as Wifi,
+column1:attributes.BikeParking::string as BikeParking,
+column1:attributes.BusinessParking.garage::string as BusinessParking_garage, 
+column1:attributes.BusinessParking.street::string as BusinessParking_street, 
+column1:attributes.BusinessParking.validated::string as BusinessParking_validated, 
+column1:attributes.BusinessParking.lot::string as BusinessParking_lot, 
+column1:attributes.BusinessParking.valet::string as BusinessParking_valet,
+column1:attributes.BusinessAcceptsCreditCards::string as BusinessAcceptsCreditCards,	
+column1:attributes.RestaurantsReservations::string as RestaurantsReservations,	
+column1:attributes.WheelchairAccessible::string as WheelchairAccessible, 
+column1:attributes.Caters::string as Caters,	
+column1:attributes.OutdoorSeating::string as OutdoorSeating, 	
+column1:attributes.RestaurantsGoodForGroups::string as RestaurantsGoodForGroups,
+column1:attributes.HappyHour::string as HappyHour,	
+column1:attributes.BusinessAcceptsBitcoin::string as BusinessAcceptsBitcoin,	
+column1:attributes.RestaurantsPriceRange2::string as RestaurantsPriceRange2,	
+column1:attributes.Ambience.romantic::string as Ambience_romantic,
+column1:attributes.Ambience.intimate::string as Ambience_intimate,
+column1:attributes.Ambience.classy::string as Ambience_classy,
+column1:attributes.Ambience.hipster::string as Ambience_hipster,
+column1:attributes.Ambience.divey::string as Ambience_divey, 
+column1:attributes.Ambience.touristy::string as Ambience_touristy, 
+column1:attributes.Ambience.trendy::string as Ambience_trendy, 
+column1:attributes.Ambience.upscale::string as Ambience_upscale, 
+column1:attributes.Ambience.casual::string as Ambience_casual,
+column1:attributes.HasTV::string as HasTV,	
+column1:attributes.Alcohol::string as Alcohol,	
+column1:attributes.GoodForMeal.dessert::string as GoodForMeal_dessert,	
+column1:attributes.GoodForMeal.latenight::string as GoodForMeal_latenight, 
+column1:attributes.GoodForMeal.lunch::string as GoodForMeal_lunch, 
+column1:attributes.GoodForMeal.dinner::string as GoodForMeal_dinner, 
+column1:attributes.GoodForMeal.brunch::string as GoodForMeal_brunch, 
+column1:attributes.GoodForMeal.breakfast::string as GoodForMeal_breakfast,
+column1:attributes.DogsAllowed::string as DogsAllowed,
+column1:attributes.RestaurantsTakeOut::string as RestaurantsTakeOut,
+column1:attributes.NoiseLevel::string as NoiseLevel,
+column1:attributes.RestaurantsAttire::string as RestaurantsAttire,
+column1:attributes.RestaurantsDelivery::string as RestaurantsDelivery,
+column1:attributes.GoodForKids::string as GoodForKids,
+column1:attributes.ByAppointmentOnly::string as ByAppointmentOnly,
+column1:categories::string as cat,
+column1:hours.Monday::string as Monday,
+column1:hours.Tuesday::string as Tuesday,
+column1:hours.Wednesday::string as Wednesday,
+column1:hours.Thursday::string as Thursday,	
+column1:hours.Friday::string as Friday,
+column1:hours.Saturday::string as Saturday,
+column1:hours.Sunday::string as Sunday 
+from stage_schema.yelp_business;  
+
+
+create or replace table Review_ODS as select
+column1:review_id::string as review_id, 
+column1:user_id::string as user_id,
+column1:business_id::string as business_id,
+column1:stars::float as stars,
+column1:useful::float as useful,
+column1:funny::float as funny,
+column1:cool::float as cool,
+column1:text::string as text,
+column1:date::DATETIME as date
+from stage_schema.yelp_review;
+
+create or replace table Checkin_ods as select
+column1:business_id::string as business_id,
+column1:date::string as date from stage_schema.yelp_checkin;
+
+create or replace table User_ODS as select 
+column1:user_id::string as user_id,
+column1:name::string as name,
+column1:review_count::int as review_count,
+column1:yelping_since::datetime as yelping_since,
+column1:useful::int as useful,
+column1:funny::int as funny,
+column1:cool::int as cool,
+column1:elite::string as elite,
+column1:friends::string as friends,
+column1:fans::int as fans,
+column1:average_stars::float as average_stars,
+column1:compliment_hot::int as compliment_hot,
+column1:compliment_more::int as compliment_more,
+column1:compliment_profile::int as compliment_profile,
+column1:compliment_cute::int as compliment_cute,
+column1:compliment_list::int as compliment_list,
+column1:compliment_note::int as compliment_note,
+column1:compliment_plain::int as compliment_plain,
+column1:compliment_cool::int as compliment_cool,
+column1:compliment_funny::int as compliment_funny,
+column1:compliment_writer::int as compliment_writer,
+column1:compliment_photos::int as compliment_photos from stage_schema.yelp_user;	
+
+create or replace table Tip_ODS AS SELECT
+column1:user_id::string as user_id,
+column1:business_id::string as business_id,
+column1:text::string as text,
+column1:date::datetime as date,
+column1:compliment_count::int as compliment_count from stage_schema.yelp_tip;	
+
+CREATE OR REPLACE TABLE COVID_ODS AS SELECT 
+column1:business_id::string as business_id,
+column1:highlights::string as highlights,
+column1:delivery_or_takeout::boolean as	delivery_or_takeout,
+column1:Grubhub_enabled::boolean as Grubhub_enabled,
+column1:Call_To_Action_enabled::boolean as Call_To_Action_enabled,
+column1:Request_a_Quote_Enabled::BOOLEAN AS Request_a_Quote_Enabled,
+column1:Covid_Banner::string as Covid_Banner,
+column1:Temporary_Closed_Until::boolean as Temporary_Closed_Until,
+column1:Virtual_Services_Offered::string as Virtual_Services_Offered from stage_schema.yelp_covid;
+																																		

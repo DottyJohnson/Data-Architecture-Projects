@@ -1,0 +1,21 @@
+create or replace table climate_dwh as select date, min, max, normal_min, normal_max, precipitation, precipitation_normal from 
+(select * from ods_schema.climate_temperature_ods) as temp
+ left join (select date as dt, precipitation, precipitation_normal from ods_schema.climate_precipitation_ods) as pre on temp.date=pre.dt;
+ 
+ select * from climate_dwh limit 10; 
+ create or replace table business_dwh as select * from ods_schema.business_ods1;
+ create or replace table checkin_dwh as select * from ods_schema.checkin_ods1;
+ create or replace table user_dwh as select * from ods_schema.user_ods1;
+ create or replace table review_dwh as select * from ods_schema.review_ods;
+ create or replace table covid_dwh as select * from ods_schema.covid_ods;
+ create or replace table tip_dwh as select * from ods_schema.tip_ods;
+ 
+ 
+ create or replace table fact_table as select business_id, user_id_u as user_id, review_id, DATE1 as date, date as datetime from
+ (select * from  (SELECT * FROM  ( SELECT * FROM (SELECT * FROM
+(SELECT business_id FROM BUSINESS_dwh) AS B LEFT JOIN (SELECT BUSINESS_ID AS BUS_ID_C, DATE FROM CHECKIN_dwh) AS C ON B.BUSINESS_ID=C.BUS_ID_C)  
+LEFT JOIN (SELECT USER_ID, BUSINESS_ID AS BUS_ID_T, TEXT AS TEXT_T, DATE AS DATE_T, COMPLIMENT_COUNT FROM TIP_dwh) AS T ON (BUS_ID_C=T.BUS_ID_T AND DATE=DATE_T) )
+outer join (select user_id as user_id_u from user_dwh) as u on (user_id=u.user_id_u)) 
+LEFT JOIN (SELECT USER_ID as user_id_R, BUSINESS_ID AS BUS_ID_R, REVIEW_ID, DATE AS DATE_R, to_DATE(date) AS Dt_R FROM REVIEW_dwh) AS R 
+ON (BUS_ID_t=BUS_ID_R )) OUTER join (select date as date1 from climate_dwh)as cl on (date=cl.date1);
+
