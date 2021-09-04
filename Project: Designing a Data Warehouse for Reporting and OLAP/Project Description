@@ -1,0 +1,12 @@
+In this project scenario, students will use actual YELP and climate datasets in order to analyze the effects the weather has on customer reviews of restaurants. The data for temperature and precipitation observations are from the Global Historical Climatology Network-Daily (GHCN-D) database. Students will use a leading industry cloud-native data warehouse system called Snowflake for all aspects of the project. Students will then apply the skills they have acquired in the preceding Designing Data Systems Course to architect and design a Data Warehouse DWH for the purpose of reporting and online analytical processing (OLAP).
+Deliverables:
+Create a data architecture diagram to visualize how you will ingest and migrate the data into Staging, Operational Data Store (ODS), and Data Warehouse environments, so as to ultimately query the data for relationships between weather and Yelp reviews. Save this so it can be included in your final submission.
+Create a staging environment(schema) in Snowflake.
+Upload all Yelp and Climate data to the staging environment.
+NOTE: You may need to SPLIT these datasets into several smaller files (< 3 million records per file in YELP)
+Create an ODS environment(aka schema).
+Draw an entity-relationship (ER) diagram to visualize the data structure. Save this so it can be included in your final submission.
+Migrate the data into the ODS environment. 
+Draw a STAR schema for the Data Warehouse environment. Save this so it can be included in your final submission.
+Migrate the data to the Data Warehouse. 
+Query the Data Warehouse to determine how weather affects Yelp reviews. 
